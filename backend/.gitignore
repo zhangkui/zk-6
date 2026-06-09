@@ -1,0 +1,16 @@
+target/
+.idea/
+*.iml
+*.ipr
+*.iws
+.mvn/
+mvnw
+mvnw.cmd
+*.log
+*.class
+*.jar
+*.war
+*.ear
+*.nar
+hs_err_pid*
+replay_pid*

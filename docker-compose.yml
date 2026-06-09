@@ -1,0 +1,65 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:15-alpine
+    container_name: parking-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: parking_db
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      TZ: Asia/Shanghai
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+      - ./sql/init.sql:/docker-entrypoint-initdb.d/init.sql:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d parking_db"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - parking-network
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: parking-backend
+    restart: unless-stopped
+    environment:
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_NAME: parking_db
+      DB_USER: postgres
+      DB_PASSWORD: postgres
+      TZ: Asia/Shanghai
+    ports:
+      - "8080:8080"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - parking-network
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: parking-frontend
+    restart: unless-stopped
+    ports:
+      - "80:80"
+    depends_on:
+      - backend
+    networks:
+      - parking-network
+
+volumes:
+  postgres-data:
+
+networks:
+  parking-network:
+    driver: bridge

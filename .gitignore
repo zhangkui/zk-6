@@ -1,0 +1,60 @@
+# Java
+*.class
+*.jar
+*.war
+*.ear
+*.nar
+target/
+build/
+.gradle/
+
+# IDE
+.idea/
+*.iml
+*.ipr
+*.iws
+.vscode/
+*.swp
+*.swo
+*~
+
+# Node
+node_modules/
+dist/
+.npm
+.cache/
+.vite/
+
+# Logs
+*.log
+logs/
+*.stackdump
+
+# OS
+.DS_Store
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# Database
+*.db
+*.sql.backup
+
+# Environment
+.env
+.env.local
+.env.*.local
+
+# Docker volumes
+postgres-data/
+
+# Maven
+.mvn/
+mvnw
+mvnw.cmd
+
+# Others
+*.tmp
+*.bak
+*.old
